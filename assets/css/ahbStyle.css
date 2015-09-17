@@ -1,0 +1,19 @@
+body{
+    font-family: Verdana !important;
+    font-size: 9px !important;
+    color: #000000 !important;
+}
+
+.employee-form {
+    border: 1px solid gray;
+}
+
+.employee-form h2 {
+    background-color: blue;
+    font-size: 9px !important;
+    font-weight: bold;
+    color: #ffffff;
+    height: 60px;
+    text-align: center;
+    padding-top: 30px;
+}
