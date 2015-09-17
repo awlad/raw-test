@@ -1,3 +1,4 @@
 /nbproject/private/
-/vendore/
+/vendor/*
 .idea
+.htaccess
