@@ -19,23 +19,25 @@ class Employee extends Database{
      */
     public function addEmployee(array $arrEmployee) {
         try {
-            $sql = "INSERT INTO employees(name, address, contact_number, zip, salary) VALUES(:name, :address, :mobile, :zip, :salary)";
-            $conn = $this->connect->prepare($sql);
+            $sql = "INSERT INTO employees(name, address, contact_number, zip_code, salary) VALUES(:name, :address, :contact_number, :zip_code, :salary)";
+            $statement = $this->conn->prepare($sql);
 
-            $conn->bindParam(':name', $arrEmployee['name'], \PDO::PARAM_STR);
-            $conn->bindParam(':address', $arrEmployee['address'], \PDO::PARAM_STR);
-            $conn->bindParam(':mobile', $arrEmployee['mobile'], \PDO::PARAM_STR);
-            $conn->bindParam(':zip', $arrEmployee['zip'], \PDO::PARAM_STR);
-            $conn->bindParam(':salary', $arrEmployee['salary'], \PDO::PARAM_INT);
-            if($conn->execute()) {
+//            $conn->bindParam(':name', $arrEmployee['name'], \PDO::PARAM_STR);
+//            $conn->bindParam(':address', $arrEmployee['address'], \PDO::PARAM_STR);
+//            $conn->bindParam(':mobile', $arrEmployee['mobile'], \PDO::PARAM_STR);
+//            $conn->bindParam(':zip_code', $arrEmployee['zip_code'], \PDO::PARAM_STR);
+//            $conn->bindParam(':salary', $arrEmployee['salary'], \PDO::PARAM_INT);
+
+            if($statement->execute($arrEmployee)) {
                 return true;
             }
             else {
-                throw new \Exception("Employee data can't save successfully");
+//                return print_r($this->conn->errorInfo());
+                return $this->conn->errorInfo();
             }
         }
         catch(\PDOException $ex) {
-            throw $ex;
+            return $ex->getMessage();
         }
     }
 
@@ -48,45 +50,42 @@ class Employee extends Database{
      */
     public function getEmployeeById($id) {
         try {
-            $conn = $this->connect->prepare('SELECT * FROM employees WHERE id = :id LIMIT 1');
+            $conn = $this->conn->prepare('SELECT * FROM employees WHERE id = :id LIMIT 1');
             $conn->bindParam(':id', $id, \PDO::PARAM_INT);
             $conn->execute();
-            if($conn->rowCount() > 0) {
-                return $conn->fetch(\PDO::FETCH_ASSOC);
-            }
-            else{
-                throw new \PDOException('No user found', 505);
-            }
+            return $conn->fetch(\PDO::FETCH_ASSOC);
+
         }
         catch(\PDOException $ex) {
-            throw $ex;
+            return  $ex->getMessage();
         }
     }
 
     /**
      * update employee information
      *
-     * @param $intId
      * @param $arrEmployee
      * @return bool
-     *
      */
-    public function updateEmployee($intId, $arrEmployee) {
+    public function updateEmployee($arrEmployee) {
         try {
-            $id = (int) $intId;
-            $query = "UPDATE employees SET name = :name, address = :address, contact_number = :contact_number, zip = :zip, salary = :salary WHERE id = :id";
-            $conn = $this->connect->prepare($query);
-            $conn->bindParam(':name', $arrEmployee['name'], \PDO::PARAM_STR);
-            $conn->bindParam(':address', $arrEmployee['address'], \PDO::PARAM_STR);
-            $conn->bindParam(':contact_number', $arrEmployee['mobile'], \PDO::PARAM_STR);
-            $conn->bindParam(':zip', $arrEmployee['zip'], \PDO::PARAM_STR);
-            $conn->bindParam(':salary', $arrEmployee['salary'], \PDO::PARAM_INT);
-            $conn->bindParam(':id', $id, \PDO::PARAM_INT);
-
-            return $conn->execute();
+            $query = "UPDATE employees SET name = :name, address = :address, contact_number = :contact_number, zip_code = :zip_code, salary = :salary WHERE id = :id";
+            $statement = $this->conn->prepare($query);
+//            $conn->bindParam(':name', $arrEmployee['name'], \PDO::PARAM_STR);
+//            $conn->bindParam(':address', $arrEmployee['address'], \PDO::PARAM_STR);
+//            $conn->bindParam(':contact_number', $arrEmployee['mobile'], \PDO::PARAM_STR);
+//            $conn->bindParam(':zip_code', $arrEmployee['zip_code'], \PDO::PARAM_STR);
+//            $conn->bindParam(':salary', $arrEmployee['salary'], \PDO::PARAM_INT);
+//            $conn->bindParam(':id', $id, \PDO::PARAM_INT);
+           if ($statement->execute($arrEmployee)){
+               return true;
+           }
+            else {
+                return $this->conn->errorInfo();
+            }
         }
         catch(\PDOException $ex) {
-            throw $ex;
+            return $ex->getMessage();
         }
     }
 
@@ -99,34 +98,34 @@ class Employee extends Database{
      */
     public function getAllEmployee() {
         try {
-            $conn = $this->connect->prepare('SELECT * FROM employees');
+            $conn = $this->conn->prepare('SELECT * FROM employees');
             $conn->execute();
-            if($conn->rowCount() > 0) {
-                return $conn->fetchAll(\PDO::FETCH_OBJ);
-            }
-            else{
-                throw new \PDOException('No Employee found', 505);
-            }
+            return $conn->fetchAll(\PDO::FETCH_OBJ);
         }
         catch(\PDOException $ex) {
-            throw $ex;
+            $ex->getMessage();
         }
     }
 
+    /**
+     * delete an employee
+     * @param $id
+     * @return bool
+     */
     public function deleteEmployee($id) {
         try {
-            $conn = $this->connect->prepare('DELETE FROM employees WHERE id = :id');
-            $conn->bindParam(':id', $id, \PDO::PARAM_INT);
-            if($conn->execute()) {
+            $statement = $this->conn->prepare('DELETE FROM employees WHERE id = :id');
+            $statement->bindParam(':id', $id, \PDO::PARAM_INT);
+            $statement->execute();
+            if($statement->rowCount() > 0) {
                 return true;
             }
-
             else{
-                throw new \PDOException('No Employee found', 505);
+                return "Employee not found with Id: $id";
             }
         }
         catch(\PDOException $ex) {
-            throw $ex;
+          return  $ex->getMessage();
         }
     }
 

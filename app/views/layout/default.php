@@ -31,6 +31,7 @@
                 <li class="<?php (current_url() == '/') ? 'active' : '' ?>"><a href="/"> <i class="fa fa-home"></i> Home </a></li>
                 <li class="<?php (current_url() == '/employee/add') ? 'active' : '' ?>"><a href="<?php generate_url('employee/add')?>"> Add Employee </a></li>
                 <li class="<?php (current_url() == '/employee/list') ? 'active' : '' ?>"><a href="<?php generate_url('employee/list')?>">Employee List</a></li>
+                <li class="<?php (current_url() == '/salary/list') ? 'active' : '' ?>"><a href="<?php generate_url('salary/list')?>">Salary List</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>

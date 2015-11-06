@@ -18,6 +18,17 @@ $request_handler->respond(['GET', 'POST'], '/', function($request) {
     }
 });
 
+$request_handler->respond(['GET', 'POST'], '/404', function($request) {
+    switch($request->method()) {
+        case 'GET':
+            return renderPage('welcome/404');
+            break;
+        case 'POST':
+            break;
+    }
+});
+
+
 
 /**
  * display add employee form using get method
@@ -32,22 +43,26 @@ $request_handler->respond(['GET', 'POST'], '/employee/add', function($request) {
         case 'POST':
             try{
                 $objEmployee = new Employee();
-                $addEmployee = $objEmployee->addEmployee(
+                $addResult = $objEmployee->addEmployee(
                     [
-                        'name'      => $request->name,
-                        'address'   => $request->address,
-                        'mobile'    => $request->mobile,
-                        'zip'       => $request->zip,
-                        'salary'    => (int) $request->salary,
+                        'name'              => $request->name,
+                        'address'           => $request->address,
+                        'contact_number'    => $request->contact_number,
+                        'zip_code'          => $request->zip_code,
+                        'salary'            => $request->salary,
                     ]
                 );
 
-                if($addEmployee === true) {
-                    setFlash('Employee added successfully');
+                if($addResult === true) {
+                    setFlash('New employee added.');
                     $arrEmployee = $objEmployee->getAllEmployee();
-                    if($arrEmployee) {
-                        return renderPage('employee/list', $data = $arrEmployee);
-                    }
+
+                    return renderPage('employee/list', $data = $arrEmployee);
+
+                }
+                else {
+                    setFlash("Error: "  + $addResult);
+//                    return "Error: "  + $addResult;
                 }
 
             }
@@ -67,9 +82,7 @@ $request_handler->respond(['GET', 'POST'], '/employee/list', function($request) 
         case 'GET':
             $objEmployee = new Employee();
             $arrEmployee = $objEmployee->getAllEmployee();
-            if($arrEmployee) {
-                return renderPage('employee/list', $data = $arrEmployee);
-            }
+            return renderPage('employee/list', $data = $arrEmployee);
             break;
         case 'POST':
             break;
@@ -90,20 +103,29 @@ $request_handler->respond(['GET', 'POST'], '/employee/edit/[:id]', function($req
             if($arrEmployee) {
                 return renderPage('employee/add_edit', ['arrEmployee' => $arrEmployee, 'action' => 'employee/edit/' . $request->id, 'type' => 'Edit']);
             }
+            else{
+                setFlash('Employee Not Found!');
+                return redirect('/404');
+            }
             break;
         case 'POST':
             $arrUpdateInfo =  [
-                'name'      => $request->name,
-                'address'   => $request->address,
-                'mobile'    => $request->mobile,
-                'zip'       => $request->zip,
-                'salary'    => (int) $request->salary,
+                'name'              => $request->name,
+                'address'           => $request->address,
+                'contact_number'    => $request->contact_number,
+                'zip_code'          => $request->zip_code,
+                'salary'            => $request->salary,
+                'id'                => $request->id
             ];
             $objEmployee = new Employee();
-            $blnUpdate = $objEmployee->updateEmployee($request->id, $arrUpdateInfo);
-            if($blnUpdate === true) {
+            $update_result = $objEmployee->updateEmployee($arrUpdateInfo);
+            if($update_result === true) {
                 setFlash('Employee updated successfully');
                 return redirect('/employee/list');
+            }
+            else {
+                setFlash("Error: " + $update_result);
+                return redirect('/employee/edit/' . $request->id);
             }
             break;
     }
@@ -117,10 +139,16 @@ $request_handler->respond(['GET', 'POST'], '/employee/delete/[:id]', function($r
     switch($request->method()) {
         case 'GET':
             $objEmployee = new Employee();
-            $blnDelete = $objEmployee->deleteEmployee($request->id);
-            if($blnDelete) {
+            $delete_result = $objEmployee->deleteEmployee(5000);
+
+            if($delete_result === true) {
                 setFlash('Employee Deleted successfully');
-                return redirect('/employee/list');            }
+                return redirect('/employee/list');
+            }
+            else {
+                setFlash("ERROR: " + $delete_result );
+                return redirect('/employee/list');
+            }
             break;
         case 'POST':
             break;
@@ -143,11 +171,11 @@ $request_handler->respond(['GET', 'POST'], '/salary/add/[:id]', function($reques
                 $addSalary = $objSalary->addSalary(
                     [
                         'employee_id'   => (int) $request->employee_id,
-                        'basic_salary'  => (int) $request->basic_salary,
-                        'house_rent'    => (int) $request->house_rent,
-                        'allowance'     => (int) $request->allowance,
-                        'income_tax'    => (int) $request->income_tax,
-                        'net_salary'    => (int) $request->net_salary,
+                        'basic_salary'  =>  $request->basic_salary,
+                        'house_rent'    =>  $request->house_rent,
+                        'allowance'     =>  $request->allowance,
+                        'income_tax'    =>  $request->income_tax,
+                        'net_salary'    =>  $request->net_salary,
                         'grade'         =>  $request->grade,
                     ]
                 );
@@ -161,6 +189,19 @@ $request_handler->respond(['GET', 'POST'], '/salary/add/[:id]', function($reques
             catch(Exception $ex) {
                 setFlash($ex->getMessage());
             }
+            break;
+    }
+});
+
+$request_handler->respond(['GET', 'POST'], '/salary/list', function($request) {
+    switch($request->method()) {
+        case 'GET':
+            $objSalary = new Salary();
+            $arrSalary = $objSalary->getAllSalary();
+
+            return renderPage('salary/list', $data = $arrSalary);
+            break;
+        case 'POST':
             break;
     }
 });

@@ -187,6 +187,15 @@ function getFieldValue($value) {
     }
 }
 
+function getButtonText($strType ){
+    if(isset($strType) && $strType == "Edit") {
+        echo "Save Employee";
+    }
+    else {
+        echo "Add Employee";
+    }
+}
+
 function current_url() {
     echo $_SERVER['REQUEST_URI'];
 }
