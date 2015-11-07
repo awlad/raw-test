@@ -1,22 +1,22 @@
 <?php namespace Module\Core;
 /**
- * Created by PhpStorm.
- * User: hizbul
- * Date: 5/26/15
- * Time: 11:57 AM
+ * @author awlad
+ * Class Database
+ * @package Module\Core
  */
 
 abstract class Database {
     public $conn;
 
     public function __construct() {
-        session_start();
         try{
             $dbConfig = require_once ROOT_DIR . 'config/database.php';
             $this->conn = new \PDO('mysql:dbname='. $dbConfig['DB_NAME'].';host='. $dbConfig['DB_HOST'], $dbConfig['DB_USER'], $dbConfig['DB_PASS']);
+            $this->conn->setAttribute( \PDO::ATTR_ERRMODE, \PDO::ERRMODE_WARNING );
+            $this->conn->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);
         }
-        catch(\PDOException $ex) {
-            return 'Connection failed:' . $ex->getMessage();
+        catch(\PDOException $e) {
+            return 'Connection failed:' . $e->getMessage();
         }
     }
 }

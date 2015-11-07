@@ -1,7 +1,6 @@
 {
   "require" : {
     "klein/klein": "dev-master",
-    "ircmaxell/password-compat": "dev-master",
     "robmorgan/phinx": "dev-master"
   },
   "autoload" : {

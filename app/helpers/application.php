@@ -39,6 +39,7 @@ function renderPage($_pageName, array $data = array(), $ext = '.php', $layout = 
 {
     extract($data);
     ob_start();
+    var_dump($_pageName);
     include ROOT_DIR . 'views/' .$_pageName . $ext;
     $html = ob_get_clean();
     return str_replace('{{=yields=}}', $html, layout($layout));
@@ -162,7 +163,7 @@ function setFlash($message = null)
 }
 
 function getFlash() {
-    return $_SESSION['flash.message'];
+    return isset($_SESSION['flash.message']) ? $_SESSION['flash.message'] : false;
 }
 
 
@@ -178,22 +179,17 @@ function getMessage($message, $type = 'success') {
     echo '<div class="alert alert-'.$type.'" role="alert">' . $message . '</div>';
 }
 
-function getFieldValue($value) {
-    if(!empty($value)) {
-        echo $value;
+function getFieldValue($arrData, $key="s") {
+    if(is_array($arrData) && array_key_exists($key, $arrData)) {
+        echo $arrData[$key];
     }
     else {
         echo '';
     }
 }
 
-function getButtonText($strType ){
-    if(isset($strType) && $strType == "Edit") {
-        echo "Save Employee";
-    }
-    else {
-        echo "Add Employee";
-    }
+function getButtonText($strType = 'Add', $btnType = 'employee' ){
+    echo $strType . ' ' . $btnType;
 }
 
 function current_url() {

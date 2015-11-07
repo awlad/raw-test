@@ -1,49 +1,33 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: hizbul
- * Date: 5/26/15
- * Time: 12:26 PM
- */
 
 namespace Module\Core;
-
+/**
+ * @author awlad
+ * Class Employee
+ * @package Module\Core
+ */
 
 class Employee extends Database{
     /**
-     * Add employee information
+     * @desc Add new employee
      *
      * @param array $arrEmployee
      * @return bool
      * @throws \Exception
      */
-    public function addEmployee(array $arrEmployee) {
+    public function addEmployee($arrEmployee) {
         try {
             $sql = "INSERT INTO employees(name, address, contact_number, zip_code, salary) VALUES(:name, :address, :contact_number, :zip_code, :salary)";
             $statement = $this->conn->prepare($sql);
-
-//            $conn->bindParam(':name', $arrEmployee['name'], \PDO::PARAM_STR);
-//            $conn->bindParam(':address', $arrEmployee['address'], \PDO::PARAM_STR);
-//            $conn->bindParam(':mobile', $arrEmployee['mobile'], \PDO::PARAM_STR);
-//            $conn->bindParam(':zip_code', $arrEmployee['zip_code'], \PDO::PARAM_STR);
-//            $conn->bindParam(':salary', $arrEmployee['salary'], \PDO::PARAM_INT);
-
-            if($statement->execute($arrEmployee)) {
-                return true;
-            }
-            else {
-//                return print_r($this->conn->errorInfo());
-                return $this->conn->errorInfo();
-            }
+            return $statement->execute($arrEmployee);
         }
-        catch(\PDOException $ex) {
-            return $ex->getMessage();
+        catch(\PDOException $e) {
+            return $e->getMessage();
         }
     }
 
     /**
-     * get a single employee by id
-     *
+     * @desc get a single employee by id
      * @param $id
      * @return object employee
      *
@@ -56,13 +40,13 @@ class Employee extends Database{
             return $conn->fetch(\PDO::FETCH_ASSOC);
 
         }
-        catch(\PDOException $ex) {
-            return  $ex->getMessage();
+        catch(\PDOException $e) {
+            return  $e->getMessage();
         }
     }
 
     /**
-     * update employee information
+     *@desc update employee
      *
      * @param $arrEmployee
      * @return bool
@@ -71,28 +55,16 @@ class Employee extends Database{
         try {
             $query = "UPDATE employees SET name = :name, address = :address, contact_number = :contact_number, zip_code = :zip_code, salary = :salary WHERE id = :id";
             $statement = $this->conn->prepare($query);
-//            $conn->bindParam(':name', $arrEmployee['name'], \PDO::PARAM_STR);
-//            $conn->bindParam(':address', $arrEmployee['address'], \PDO::PARAM_STR);
-//            $conn->bindParam(':contact_number', $arrEmployee['mobile'], \PDO::PARAM_STR);
-//            $conn->bindParam(':zip_code', $arrEmployee['zip_code'], \PDO::PARAM_STR);
-//            $conn->bindParam(':salary', $arrEmployee['salary'], \PDO::PARAM_INT);
-//            $conn->bindParam(':id', $id, \PDO::PARAM_INT);
-           if ($statement->execute($arrEmployee)){
-               return true;
-           }
-            else {
-                return $this->conn->errorInfo();
-            }
+            return $statement->execute($arrEmployee);
         }
-        catch(\PDOException $ex) {
-            return $ex->getMessage();
+        catch(\PDOException $e) {
+            return $e->getMessage();
         }
     }
 
     /**
-     * Get all employee
+     *@desc get all employee
      *
-     * @params none
      * @return object employee
      *
      */
@@ -102,13 +74,14 @@ class Employee extends Database{
             $conn->execute();
             return $conn->fetchAll(\PDO::FETCH_OBJ);
         }
-        catch(\PDOException $ex) {
-            $ex->getMessage();
+        catch(\PDOException $e) {
+            $e->getMessage();
         }
     }
 
     /**
-     * delete an employee
+     * @desc delete an employee
+     *
      * @param $id
      * @return bool
      */

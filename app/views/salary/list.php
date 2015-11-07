@@ -12,6 +12,8 @@
                     <th>allowance</th>
                     <th>income tax</th>
                     <th>net salary</th>
+                    <th>Grade</th>
+                    <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -23,6 +25,10 @@
                         <td><?php echo $objSalary->allowance; ?></td>
                         <td><?php echo $objSalary->income_tax; ?></td>
                         <td><?php echo $objSalary->net_salary; ?></td>
+                        <td><?php echo $objSalary->grade; ?></td>
+                        <td>
+                            <a href="<?php generate_url('salary/edit/'. $objSalary->employee_id)?>">Edit</a>
+                        </td>
 
                     </tr>
                 <?php endforeach ?>

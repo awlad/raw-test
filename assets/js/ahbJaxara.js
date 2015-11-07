@@ -1,6 +1,3 @@
-/**
- * Created by hizbul on 5/26/15.
- */
 $(function() {
     // Numeric only control handler
     jQuery.fn.ForceNumericOnly =

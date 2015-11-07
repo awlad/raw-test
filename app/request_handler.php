@@ -4,31 +4,27 @@ use Module\Core\Salary;
 
 $request_handler = \Module\App::requestHandler();
 
+
 /**
- * display home page using get method
+ * home page
  *
  */
-$request_handler->respond(['GET', 'POST'], '/', function($request) {
-    switch($request->method()) {
-        case 'GET':
-            return renderPage('welcome/welcome');
-            break;
-        case 'POST':
-            break;
-    }
+$request_handler->respond('GET', '/', function() {
+    return renderPage('welcome/welcome');
 });
 
-$request_handler->respond(['GET', 'POST'], '/404', function($request) {
-    switch($request->method()) {
-        case 'GET':
-            return renderPage('welcome/404');
-            break;
-        case 'POST':
-            break;
-    }
+/**
+ * 404
+ */
+$request_handler->respond('GET', '/404', function() {
+    return renderPage('errors/404', ['error' => 404]);
 });
 
 
+
+####################################################################################
+########################## EMPLOYEE SECTION  #######################################
+####################################################################################
 
 /**
  * display add employee form using get method
@@ -38,7 +34,7 @@ $request_handler->respond(['GET', 'POST'], '/404', function($request) {
 $request_handler->respond(['GET', 'POST'], '/employee/add', function($request) {
     switch($request->method()) {
         case 'GET':
-            return renderPage('employee/add_edit', ['action' => 'employee/add', 'type' => 'Add']);
+            return renderPage('employee/add_edit', ['arrEmployee' => [], 'action' => 'employee/add', 'type' => 'Add']);
             break;
         case 'POST':
             try{
@@ -155,15 +151,48 @@ $request_handler->respond(['GET', 'POST'], '/employee/delete/[:id]', function($r
     }
 });
 
+####################################################################################
+########################## END EMPLOYEE SECTION  ###################################
+####################################################################################
+
+
+
+####################################################################################
+########################## SALARY SECTION  #########################################
+####################################################################################
+
 /**
- * display add salary form using get method
- * add salary data using post method
+ * List salary
+ */
+$request_handler->respond(['GET', 'POST'], '/salary/list', function($request) {
+    switch($request->method()) {
+        case 'GET':
+            $objSalary = new Salary();
+            $arrSalary = $objSalary->getAllSalary();
+
+            return renderPage('salary/list', $data = $arrSalary);
+            break;
+        case 'POST':
+            break;
+    }
+});
+
+
+/**
+ * add salary
  *
  */
 $request_handler->respond(['GET', 'POST'], '/salary/add/[:id]', function($request) {
     switch($request->method()) {
         case 'GET':
-            return renderPage('salary/add', ['id' => $request->id]);
+            $objSalary = new Salary();
+            $arrSalary = $objSalary->getSalaryByEmployee($request->id);
+            if($arrSalary) {
+                return redirect('/salary/edit/'. $request->id);
+            }
+            else {
+                return renderPage('salary/add', ['arrSalary' => [], 'type' => 'Add', 'id' => $request->id]);
+            }
             break;
         case 'POST':
             try{
@@ -193,16 +222,58 @@ $request_handler->respond(['GET', 'POST'], '/salary/add/[:id]', function($reques
     }
 });
 
-$request_handler->respond(['GET', 'POST'], '/salary/list', function($request) {
+/**
+ * edit salary
+ */
+$request_handler->respond(['GET', 'POST'], '/salary/edit/[:id]', function($request) {
     switch($request->method()) {
         case 'GET':
             $objSalary = new Salary();
-            $arrSalary = $objSalary->getAllSalary();
-
-            return renderPage('salary/list', $data = $arrSalary);
+            $arrSalary = $objSalary->getSalaryByEmployee($request->id);
+            if($arrSalary) {
+                return renderPage('salary/add', ['arrSalary' => $arrSalary, 'action' => 'salary/edit/' . $request->id, 'type' => 'Edit', 'id' => $request->id]);
+            }
+            else{
+                setFlash('Salary Not Found!');
+                return redirect('/404');
+            }
             break;
         case 'POST':
+            $arrUpdateInfo =  [
+                'basic_salary'   => $request->basic_salary,
+                'house_rent'     => $request->house_rent,
+                'allowance'      => $request->allowance,
+                'income_tax'     => $request->income_tax,
+                'net_salary'     => $request->net_salary,
+                'grade'          => $request->grade,
+                'employee_id'    => (int)$request->employee_id
+            ];
+            $objSalary = new Salary();
+            $update_result = $objSalary->updateSalary($arrUpdateInfo);
+            if($update_result === true) {
+                setFlash('salary updated successfully');
+                return redirect('/salary/list');
+            }
+            else {
+                setFlash("Error: " . $update_result);
+                return redirect('/salary/edit/' . $request->id);
+            }
             break;
+    }
+});
+
+####################################################################################
+########################## END SALARY SECTION  #####################################
+####################################################################################
+
+
+$request_handler->onHttpError(function ($code, $router) {
+    if ($code >= 400 && $code < 500) {
+        $router->response()->body(
+            'Oh no, a bad error happened that caused a '. $code
+        );
+    } elseif ($code >= 500 && $code <= 599) {
+        error_log('uhhh, something bad happened');
     }
 });
 
