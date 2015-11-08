@@ -28,10 +28,10 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li class="<?php (current_url() == '/') ? 'active' : '' ?>"><a href="/"> <i class="fa fa-home"></i> Home </a></li>
-                <li class="<?php (current_url() == '/employee/add') ? 'active' : '' ?>"><a href="<?php generate_url('employee/add')?>"> Add Employee </a></li>
-                <li class="<?php (current_url() == '/employee/list') ? 'active' : '' ?>"><a href="<?php generate_url('employee/list')?>">Employee List</a></li>
-                <li class="<?php (current_url() == '/salary/list') ? 'active' : '' ?>"><a href="<?php generate_url('salary/list')?>">Salary List</a></li>
+                <li class="<?php getClass('/') ?>"><a href="/"> <i class="fa fa-home"></i> Home </a></li>
+                <li class="<?php getClass('/employee/add'); ?>"><a href="/employee/add"> Add Employee </a></li>
+                <li class="<?php getClass('/employee/list');?>"><a href="/employee/list">Employee List</a></li>
+                <li class="<?php getClass('/salary/list');?>"><a href="/salary/list">Salary List</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
@@ -44,10 +44,10 @@
         setFlash('');
     }
     ?>
-    <!-- Main component for a primary marketing message or call to action -->
+
     {{=yields=}}
 
-</div> <!-- /container -->
+</div>
 <script src="../../../assets/js/jquery.js"></script>
 <?php javaScripts('js') ?>
 <style>

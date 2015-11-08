@@ -9,7 +9,7 @@
                         <th>Basic Salary</th>
                         <th>Contact Number</th>
                         <th>Zip</th>
-                        <th>Salary</th>
+                        <th>Updated</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -20,7 +20,7 @@
                             <td><?php echo $strEmployee->address; ?></td>
                             <td><?php echo $strEmployee->contact_number; ?></td>
                             <td><?php echo $strEmployee->zip_code; ?></td>
-                            <td><?php echo $strEmployee->salary; ?></td>
+                            <td><?php echo $strEmployee->updated_at; ?></td>
                             <td>
                                 <a href="<?php generate_url('employee/edit/'. $strEmployee->id)?>">Edit</a>
                                 <a href="<?php generate_url('employee/delete/'. $strEmployee->id)?>">Delete</a>

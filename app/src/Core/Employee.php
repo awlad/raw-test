@@ -17,8 +17,10 @@ class Employee extends Database{
      */
     public function addEmployee($arrEmployee) {
         try {
-            $sql = "INSERT INTO employees(name, address, contact_number, zip_code, salary) VALUES(:name, :address, :contact_number, :zip_code, :salary)";
+            $sql = "INSERT INTO employees(name, address, contact_number, zip_code, created_at, updated_at) VALUES(:name, :address, :contact_number, :zip_code, :created_at,:updated_at )";
             $statement = $this->conn->prepare($sql);
+            $arrEmployee['created_at'] = date('Y-m-d H:i:s');
+            $arrEmployee['updated_at'] = date('Y-m-d H:i:s');
             return $statement->execute($arrEmployee);
         }
         catch(\PDOException $e) {
@@ -53,8 +55,9 @@ class Employee extends Database{
      */
     public function updateEmployee($arrEmployee) {
         try {
-            $query = "UPDATE employees SET name = :name, address = :address, contact_number = :contact_number, zip_code = :zip_code, salary = :salary WHERE id = :id";
+            $query = "UPDATE employees SET name = :name, address = :address, contact_number = :contact_number, zip_code = :zip_code, updated_at = :updated_at WHERE id = :id LIMIT 1";
             $statement = $this->conn->prepare($query);
+            $arrEmployee['updated_at'] = date('Y-m-d H:i:s');
             return $statement->execute($arrEmployee);
         }
         catch(\PDOException $e) {

@@ -44,8 +44,7 @@ $request_handler->respond(['GET', 'POST'], '/employee/add', function($request) {
                         'name'              => $request->name,
                         'address'           => $request->address,
                         'contact_number'    => $request->contact_number,
-                        'zip_code'          => $request->zip_code,
-                        'salary'            => $request->salary,
+                        'zip_code'          => $request->zip_code
                     ]
                 );
 
@@ -110,7 +109,6 @@ $request_handler->respond(['GET', 'POST'], '/employee/edit/[:id]', function($req
                 'address'           => $request->address,
                 'contact_number'    => $request->contact_number,
                 'zip_code'          => $request->zip_code,
-                'salary'            => $request->salary,
                 'id'                => $request->id
             ];
             $objEmployee = new Employee();
@@ -135,7 +133,7 @@ $request_handler->respond(['GET', 'POST'], '/employee/delete/[:id]', function($r
     switch($request->method()) {
         case 'GET':
             $objEmployee = new Employee();
-            $delete_result = $objEmployee->deleteEmployee(5000);
+            $delete_result = $objEmployee->deleteEmployee($request->id);
 
             if($delete_result === true) {
                 setFlash('Employee Deleted successfully');

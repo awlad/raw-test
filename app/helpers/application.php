@@ -1,17 +1,6 @@
 <?php
 
-/**
- * Dump a variable - helper method
- *
- * @param $data
- */
-function dd($data)
-{
-    echo '<pre>';
-    var_dump($data);
-    echo '</pre>';
-    die;
-}
+
 
 /**
  * Load a layout
@@ -39,7 +28,6 @@ function renderPage($_pageName, array $data = array(), $ext = '.php', $layout = 
 {
     extract($data);
     ob_start();
-    var_dump($_pageName);
     include ROOT_DIR . 'views/' .$_pageName . $ext;
     $html = ob_get_clean();
     return str_replace('{{=yields=}}', $html, layout($layout));
@@ -192,6 +180,11 @@ function getButtonText($strType = 'Add', $btnType = 'employee' ){
     echo $strType . ' ' . $btnType;
 }
 
-function current_url() {
-    echo $_SERVER['REQUEST_URI'];
+/**
+ * @param $strUrl
+ * @return string
+ */
+function getClass($strUrl) {
+
+    echo $strUrl == $_SERVER['REQUEST_URI'] ? 'active' : '';
 }

@@ -2,6 +2,10 @@
     <div class="col-md-8 col-md-offset-2">
         <h2><?php echo "Employee $type Form"?> </h2>
         <form id="add_edit" action="<?php generate_url($action)?>" method="post" class="form-horizontal">
+            <div class="form-group" style="display: none;" id="errors">
+
+            </div>
+
             <div class="form-group">
                 <label for="name"> Name</label>
                 <input type="text" name="name" class="form-control" id="name" value="<?php getFieldValue($arrEmployee, 'name'); ?>"/>
@@ -17,10 +21,6 @@
             <div class="form-group">
                 <label for="zip"> Zip</label>
                 <input type="text" name="zip_code" class="form-control" id="zip" value="<?php getFieldValue($arrEmployee, 'zip_code'); ?>"/>
-            </div>
-            <div class="form-group">
-                <label for="salary"> Salary</label>
-                <input type="text" name="salary" class="form-control" id="salary" value="<?php getFieldValue($arrEmployee, 'salary'); ?>"/>
             </div>
 
             <div class="form-group">

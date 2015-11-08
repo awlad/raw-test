@@ -23,26 +23,44 @@ $(function() {
                 });
             });
         };
+
+    var createErrorMsg =
+        function(attr, message)
+        {
+            return "<p>Error in "+ attr + ", " + message + "</p>";
+        };
+
     $('#salary, #basic_salary').ForceNumericOnly();
     $('form#add_edit').on('submit', function() {
         var validation = true;
         var name = $('#name').val();
         var zip = $('#zip').val();
         var zip_pattern = /^[0-9]\d+-?$/
+        var errors_html = "<h3>Following errors occurs</h3>";
         if(name == '') {
-            alert('Name field is required');
+            errors_html += createErrorMsg('Name', 'Name field is required');
             validation = false;
         }
-        else if(name > 150) {
-            alert('Name field should less than 150 char');
+        if(name.length > 150) {
+            errors_html += createErrorMsg('Name','Name field should less than 150 char');
             validation = false;
         }
 
+        if(zip == '') {
+            errors_html += createErrorMsg("Zip", 'zip field is required');
+            validation = false;
+        }
         if(zip != '') {
             if(!zip_pattern.test($.trim(zip))) {
-                alert('its not a correct zip');
+                errors_html += createErrorMsg("Zip", 'its not a correct zip');
                 validation = false;
             }
+        }
+        if (!validation) {
+            $("#errors").html(errors_html).show();
+        }
+        else {
+            $("#errors").html('').hide();
         }
         return validation;
     })
