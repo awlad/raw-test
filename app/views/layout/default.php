@@ -32,6 +32,13 @@
                 <li class="<?php getClass('/employee/add'); ?>"><a href="/employee/add"> Add Employee </a></li>
                 <li class="<?php getClass('/employee/list');?>"><a href="/employee/list">Employee List</a></li>
                 <li class="<?php getClass('/salary/list');?>"><a href="/salary/list">Salary List</a></li>
+<!--                <li class="dropdown">-->
+<!--                    <a href="#" class="dropdown-toggle active" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Employee <span class="caret"></span></a>-->
+<!--                    <ul class="dropdown-menu">-->
+<!--                        <li class="--><?php //getClass('/employee/add'); ?><!--"><a href="/employee/add"> Add Employee </a></li>-->
+<!--                        <li class="--><?php //getClass('/employee/list');?><!--"><a href="/employee/list">Employee List</a></li>-->
+<!--                    </ul>-->
+<!--                </li>-->
             </ul>
         </div><!--/.nav-collapse -->
     </div>

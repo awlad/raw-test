@@ -14,7 +14,7 @@ require __DIR__ . '/vendor/autoload.php';
 /**
  * Load helper functions
  */
-require HELPERS_DIR . 'application.php';
+require HELPERS_DIR . 'application_helper.php';
 
 /**
  * Separate all request to another file [http-request]
