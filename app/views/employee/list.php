@@ -23,7 +23,7 @@
                             <td><?php echo $strEmployee->updated_at; ?></td>
                             <td>
                                 <a href="<?php generate_url('employee/edit/'. $strEmployee->id)?>">Edit</a>
-                                <a href="<?php generate_url('employee/delete/'. $strEmployee->id)?>">Delete</a>
+                                <a href="<?php generate_url('employee/remove/'. $strEmployee->id)?>">Delete</a>
                                 <a href="<?php generate_url('salary/add/'. $strEmployee->id)?>">Add Salary</a>
                             </td>
                         </tr>

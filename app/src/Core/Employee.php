@@ -55,6 +55,7 @@ class Employee extends Database{
      */
     public function updateEmployee($arrEmployee) {
         try {
+
             $query = "UPDATE employees SET name = :name, address = :address, contact_number = :contact_number, zip_code = :zip_code, updated_at = :updated_at WHERE id = :id LIMIT 1";
             $statement = $this->conn->prepare($query);
             $arrEmployee['updated_at'] = date('Y-m-d H:i:s');

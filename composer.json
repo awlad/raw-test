@@ -1,9 +1,11 @@
 {
   "require" : {
-    "klein/klein": "dev-master",
+    "phpsgi/phpsgi": "@dev",
+    "corneltek/pux": "2.0.x-dev",
     "robmorgan/phinx": "dev-master"
   },
   "autoload" : {
+    "files": ["app/helpers/application_helper.php", "app/request_handler.php"],
     "psr-4" : {
       "Module\\" : "app/src/"
     }
