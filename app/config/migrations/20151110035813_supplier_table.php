@@ -2,7 +2,7 @@
 
 use Phinx\Migration\AbstractMigration;
 
-class EmployeeTable extends AbstractMigration
+class SupplierTable extends AbstractMigration
 {
     /**
      * Change Method.
@@ -27,15 +27,15 @@ class EmployeeTable extends AbstractMigration
      */
     public function change()
     {
-        // create the table
-        $table = $this->table('employees');
-        $table->addColumn('name', 'string', array('limit' => 150))
+        $table = $this->table('suppliers');
+        $table->addColumn('name', 'string', array('limit' => 30))
             ->addColumn('address', 'text')
             ->addColumn('contact_number', 'string', array('limit' => 20))
+            ->addColumn('email', 'string')
             ->addColumn('zip_code', 'string', array('limit' => 10))
-            ->addColumn('salary', 'float')
             ->addColumn('created_at', 'datetime', array('null' => true))
             ->addColumn('updated_at', 'datetime', array('null' => true))
             ->create();
+
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Module\Core;
+namespace Module\models;
 
 /**
  * @author awlad

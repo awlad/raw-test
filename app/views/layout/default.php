@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>My Test Project</title>
+    <title>{{{=yields_title=}}}</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <?php stylesheets('css'); ?>
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
@@ -29,16 +29,9 @@
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li class="<?php getClass('/') ?>"><a href="/"> <i class="fa fa-home"></i> Home </a></li>
+                <li class="<?php getClass('/employees');?>"><a href="/employees">Employee List</a></li>
                 <li class="<?php getClass('/employee/add'); ?>"><a href="/employee/add"> Add Employee </a></li>
-                <li class="<?php getClass('/employee/list');?>"><a href="/employee/list">Employee List</a></li>
-                <li class="<?php getClass('/salary/list');?>"><a href="/salary/list">Salary List</a></li>
-<!--                <li class="dropdown">-->
-<!--                    <a href="#" class="dropdown-toggle active" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Employee <span class="caret"></span></a>-->
-<!--                    <ul class="dropdown-menu">-->
-<!--                        <li class="--><?php //getClass('/employee/add'); ?><!--"><a href="/employee/add"> Add Employee </a></li>-->
-<!--                        <li class="--><?php //getClass('/employee/list');?><!--"><a href="/employee/list">Employee List</a></li>-->
-<!--                    </ul>-->
-<!--                </li>-->
+                <li class="<?php getClass('/salaries');?>"><a href="/salaries">Salary List</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
@@ -52,7 +45,7 @@
     }
     ?>
 
-    {{=yields=}}
+    {{{=yields_contents=}}}
 
 </div>
 <script src="../../../assets/js/jquery.js"></script>

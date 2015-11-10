@@ -1,0 +1,24 @@
+2.a
+
+SELECT s.* FROM suppliers s
+    JOIN supplier_employees se ON s.id = se.supplier_id
+    JOIN employees e ON  se.employee_id = e.id
+    WHERE e.name = "xyz"
+
+
+2.b
+SELECT e.* FROM employees e
+    JOIN supplier_employees se ON e.id = se.employee_id
+    JOIN suppliers s ON  se.supplier_id = s.id
+    WHERE s.name IN ("Abc Co.", "123 Ltd")
+
+
+
+2.c
+    SELECT s.*, count(distinct(se.employee_id)) AS em_count
+     FROM suppliers s
+        JOIN supplier_employees se ON s.id = se.supplier_id
+        JOIN employees e ON  se.employee_id = e.id and e.name = "xyz"
+        group by s.id
+        having em_count = 1
+

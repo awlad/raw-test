@@ -32,6 +32,7 @@
 
             <div class="form-group">
                 <input type="submit" class="btn btn-success btn-lg" value="<?php getButtonText($type, 'salary');?>"/>
+                <a href="/salaries" class="btn  btn-danger btn-lg"> Cancel </a>
             </div>
         </form>
     </div>

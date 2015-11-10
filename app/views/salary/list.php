@@ -1,6 +1,6 @@
 <div class="row  employee-form">
     <div class="col-md-12">
-        <h2>Salary List</h2>
+        <h2 class="title">Salary List</h2>
 
         <?php if (count($data)> 0) { ?>
             <table class="table">

@@ -1,6 +1,6 @@
 <?php
 
-namespace Module\Core;
+namespace Module\models;
 /**
  * @author awlad
  * Class Employee
@@ -91,8 +91,12 @@ class Employee extends Database{
      */
     public function deleteEmployee($id) {
         try {
-            $statement = $this->conn->prepare('DELETE FROM employees WHERE id = :id');
+
+            $objSalStatement = $this->conn->prepare("DELETE FROM salary WHERE employee_id = :id");
+            $statement = $this->conn->prepare('DELETE FROM employees WHERE id = :id LIMIT 1');
             $statement->bindParam(':id', $id, \PDO::PARAM_INT);
+            $objSalStatement->bindParam(':id', $id, \PDO::PARAM_INT);
+            $objSalStatement->execute();
             $statement->execute();
             if($statement->rowCount() > 0) {
                 return true;

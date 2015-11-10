@@ -1,6 +1,6 @@
 <div class="row  employee-form">
     <div class="col-md-12">
-        <h2>Employee List</h2>
+        <h2 class="title">Employee List</h2>
         <?php if (count($data)> 0) { ?>
             <table class="table">
                 <thead>
@@ -14,17 +14,17 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach($data as $strEmployee):?>
+                    <?php foreach($data as $objEmployee):?>
                         <tr>
-                            <td><?php echo $strEmployee->name; ?></td>
-                            <td><?php echo $strEmployee->address; ?></td>
-                            <td><?php echo $strEmployee->contact_number; ?></td>
-                            <td><?php echo $strEmployee->zip_code; ?></td>
-                            <td><?php echo $strEmployee->updated_at; ?></td>
+                            <td><?php echo $objEmployee->name; ?></td>
+                            <td><?php echo $objEmployee->address; ?></td>
+                            <td><?php echo $objEmployee->contact_number; ?></td>
+                            <td><?php echo $objEmployee->zip_code; ?></td>
+                            <td><?php echo $objEmployee->updated_at; ?></td>
                             <td>
-                                <a href="<?php generate_url('employee/edit/'. $strEmployee->id)?>">Edit</a>
-                                <a href="<?php generate_url('employee/remove/'. $strEmployee->id)?>">Delete</a>
-                                <a href="<?php generate_url('salary/add/'. $strEmployee->id)?>">Add Salary</a>
+                                <a href="<?php generate_url('employee/edit/'. $objEmployee->id)?>">Edit</a>
+                                <a onclick="return confirm('Are you sure you want to delete?');" href="<?php generate_url('employee/remove/'. $objEmployee->id)?>">Delete</a>
+                                <a href="<?php generate_url('salary/add/'. $objEmployee->id)?>">Add Salary</a>
                             </td>
                         </tr>
                     <?php endforeach ?>

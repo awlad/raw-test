@@ -1,0 +1,10 @@
+
+-- Create a database name supplier_db
+-- run composer install from project directory
+-- run `php vendor/bin/phinx migrate` command to generate database
+-- change database setting in the phix.yml(development env) and app/config/database.php
+
+-- all queries answer of question no #2 inside QUERIES directory
+
+
+Note: I have used virtual host in ubuntu in apache2 server.

@@ -1,32 +1,63 @@
 <?php
 namespace Module\controllers;
-use Module\Core\Employee;
-use Module\Core\Salary;
+use Module\models\Employee;
+
+
 
 class EmployeesController extends BaseController{
 
+    /**
+     *
+     * @var objEmp
+     */
     protected $objEmp;
+    protected $strana;
 
+
+    function  __construct(){
+        $this->set();
+
+    }
+    /**
+     * initialize employee object
+     */
     public function set()
     {
         $this->objEmp = new Employee();
+        $this->strana = new \Strana\Paginator();
     }
 
+    /**
+     * Employee list
+     *
+     * @author awlad <awladliton@gmail.com>
+     * @return mixed
+     */
     public function index()
     {
-        $this->set();
         $arrEmployee = $this->objEmp->getAllEmployee();
         return $this->renderPage("employee/list", $arrEmployee);
     }
 
+    /**
+     * Employee Add form
+     *
+     * @author awlad <awladliton@gmail.com>
+     * @return mixed
+     */
     public function add()
     {
-        return $this->renderPage('employee/add_edit', ['arrEmployee' => [], 'action' => 'employee/create', 'type' => 'Add']);
+        return $this->renderPage('employee/form', ['arrEmployee' => [], 'action' => 'employee/create', 'type' => 'Add']);
     }
 
+    /**
+     * create new employee
+     *
+     * @author awlad <awladliton@gmail.com>
+     * @return mixed
+     */
     public function create()
     {
-        $this->set();
         $addResult = $this->objEmp->addEmployee(
             [
                 'name'              => $_REQUEST['name'],
@@ -38,23 +69,47 @@ class EmployeesController extends BaseController{
 
         if($addResult === true) {
             setFlash('New employee added.');
-            $arrEmployee = $this->objEmp->getAllEmployee();
-            return $this->renderPage('employee/list', $arrEmployee);
+            return redirect('/employees');
 
         }
         else {
             setFlash("Error: "  + $addResult);
-//                    return "Error: "  + $addResult;
         }
 
     }
+
+    /**
+     *
+     * Delete an Employee
+     * @author awlad <awladliton@gmail.com>
+     * @param $id
+     */
+    public function destroy($id)
+    {
+        $delete_result = $this->objEmp->deleteEmployee($id);
+        if($delete_result === true) {
+            setFlash('Employee Deleted successfully');
+            return redirect('/employees');
+        }
+        else {
+            setFlash("ERROR: " + $delete_result );
+            return redirect('/employees');
+        }
+
+    }
+
+    /**
+     * Edit employee form
+     * @author awlad <awladliton@gmail.com>
+     * @param $id
+     * @return string|void
+     */
     public function edit($id)
     {
-        $this->set();
 
         $arrEmployee = $this->objEmp->getEmployeeById($id);
         if($arrEmployee) {
-            return renderPage('employee/add_edit', ['arrEmployee' => $arrEmployee, 'action' => 'employee/update/' . $id, 'type' => 'Edit']);
+            return renderPage('employee/form', ['arrEmployee' => $arrEmployee, 'action' => 'employee/update/' . $id, 'type' => 'Edit']);
         }
         else{
             setFlash('Employee Not Found!');
@@ -63,9 +118,14 @@ class EmployeesController extends BaseController{
 
     }
 
+    /**
+     * Update Employee
+     *
+     * @author awlad <awladliton@gmail.com>
+     * @param $id
+     */
     public function update($id)
     {
-        $this->set();
         $arrUpdateInfo =  [
             'name'              => $_REQUEST['name'],
             'address'           => $_REQUEST['address'],
@@ -76,26 +136,11 @@ class EmployeesController extends BaseController{
         $update_result = $this->objEmp->updateEmployee($arrUpdateInfo);
         if($update_result === true) {
             setFlash('Employee updated successfully');
-            return $this->redirect('/employee');
+            return $this->redirect('/employees');
         }
         else {
             setFlash("Error: " + $update_result);
             return $this->redirect('/employee/edit/' . $id);
-        }
-
-    }
-
-    public function destroy($id)
-    {
-        $this->set();
-        $delete_result = $this->objEmp->deleteEmployee($id);
-        if($delete_result === true) {
-            setFlash('Employee Deleted successfully');
-            return redirect('/employee');
-        }
-        else {
-            setFlash("ERROR: " + $delete_result );
-            return redirect('/employee');
         }
 
     }

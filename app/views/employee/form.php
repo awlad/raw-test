@@ -1,6 +1,6 @@
 <div class="row  employee-form">
     <div class="col-md-8 col-md-offset-2">
-        <h2><?php echo "Employee $type Form"?> </h2>
+        <h2 class="title"><?php echo "Employee $type Form"?> </h2>
         <form id="add_edit" action="<?php generate_url($action)?>" method="post" class="form-horizontal">
             <div class="form-group" style="display: none;" id="errors">
 
@@ -25,6 +25,7 @@
 
             <div class="form-group">
                 <input type="submit" class="btn btn-success btn-lg" value="<?php getButtonText($type, 'employee');?>"/>
+                <a href="/employee" class="btn  btn-danger btn-lg"> Cancel </a>
             </div>
         </form>
     </div>

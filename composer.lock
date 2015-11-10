@@ -5,7 +5,6 @@
         "This file is @generated automatically"
     ],
     "hash": "36fb5303de57a934e0076e90b47ce893",
-    "content-hash": "b1687324977c152f242f47f2c8891527",
     "packages": [
         {
             "name": "corneltek/codegen",
